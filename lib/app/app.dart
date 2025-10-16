@@ -10,11 +10,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final router = AppRouter().router;
-
     return MultiBlocProvider(
       providers: [
+        // SplashBloc handles splash delay/navigation logic
         BlocProvider(create: (_) => SplashBloc()..add(StartSplash())),
+        // ✅ You can add more blocs here in the future (e.g., AuthBloc, NotesBloc, etc.)
       ],
       child: MaterialApp.router(
         title: 'StudyMate',
@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,
         themeMode: ThemeMode.system,
-        routerConfig: router,
+        routerConfig: AppRouter.router, // directly use the static router
       ),
     );
   }

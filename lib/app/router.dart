@@ -1,29 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+
+// ✅ Import all your screens
 import 'package:sdtudy_flow/presentation/pages/auth/login_screen.dart';
+import 'package:sdtudy_flow/presentation/pages/auth/sign_up_screen.dart';
 import 'package:sdtudy_flow/presentation/pages/home/home_screen.dart';
 import 'package:sdtudy_flow/presentation/pages/splashScreen/splash_screen.dart';
 
-// ✅ Import your pages
-// import 'package:your_app_name/presentation/pages/home/home_page.dart';
-// import 'package:your_app_name/presentation/pages/schedule/schedule_page.dart';
-// import 'package:your_app_name/presentation/pages/assignments/assignments_page.dart';
-// import 'package:your_app_name/presentation/pages/notes/notes_page.dart';
-// import 'package:your_app_name/presentation/pages/auth/login_page.dart';
-
+/// Centralized router configuration using GoRouter
 class AppRouter {
-  GoRouter get router => GoRouter(
+  static final GoRouter router = GoRouter(
+    initialLocation: '/', // Start with SplashScreen
     routes: [
-      // GoRoute(
-      //   path: '/',
-      //   name: 'home',
-      //   builder: (context, state) => const HomeScreen(),
-      // ),
+      /// Splash Screen
       GoRoute(
         path: '/',
-        name: 'splashscreen',
+        name: 'splash',
         builder: (context, state) => const SplashScreen(),
       ),
+
+      /// Login Screen
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) => const LoginScreen(),
+      ),
+
+      /// Sign Up Screen
+      GoRoute(
+        path: '/signup',
+        name: 'signup',
+        builder: (context, state) => const SignUpPage(),
+      ),
+
+      /// Home Screen
+      GoRoute(
+        path: '/home',
+        name: 'home',
+        builder: (context, state) => const HomeScreen(),
+      ),
+
+      // ✅ (Optional) Future routes
       // GoRoute(
       //   path: '/schedule',
       //   name: 'schedule',
@@ -39,11 +56,6 @@ class AppRouter {
       //   name: 'notes',
       //   builder: (context, state) => const NotesPage(),
       // ),
-      GoRoute(
-        path: '/login',
-        name: 'login',
-        builder: (context, state) => const LoginScreen(),
-      ),
     ],
   );
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sdtudy_flow/presentation/pages/auth/login_screen.dart';
 import 'package:sdtudy_flow/presentation/pages/home/home_screen.dart';
+import 'package:sdtudy_flow/presentation/pages/splashScreen/splash_screen.dart';
 
 // ✅ Import your pages
 // import 'package:your_app_name/presentation/pages/home/home_page.dart';
@@ -12,10 +14,15 @@ import 'package:sdtudy_flow/presentation/pages/home/home_screen.dart';
 class AppRouter {
   GoRouter get router => GoRouter(
     routes: [
+      // GoRoute(
+      //   path: '/',
+      //   name: 'home',
+      //   builder: (context, state) => const HomeScreen(),
+      // ),
       GoRoute(
         path: '/',
-        name: 'home',
-        builder: (context, state) => const HomeScreen(),
+        name: 'splashscreen',
+        builder: (context, state) => const SplashScreen(),
       ),
       // GoRoute(
       //   path: '/schedule',
@@ -32,11 +39,11 @@ class AppRouter {
       //   name: 'notes',
       //   builder: (context, state) => const NotesPage(),
       // ),
-      // GoRoute(
-      //   path: '/login',
-      //   name: 'login',
-      //   builder: (context, state) => const LoginPage(),
-      // ),
+      GoRoute(
+        path: '/login',
+        name: 'login',
+        builder: (context, state) => const LoginScreen(),
+      ),
     ],
   );
 }

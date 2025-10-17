@@ -1,20 +1,14 @@
 import 'package:equatable/equatable.dart';
 
-abstract class ResetPasswordEvent extends Equatable {
+abstract class ForgetPasswordEvent extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-// Update password
-class UpdatePasswordEvent extends ResetPasswordEvent {
-  final String newPassword;
-  UpdatePasswordEvent(this.newPassword);
+class SendResetEmailEvent extends ForgetPasswordEvent {
+  final String email;
+  SendResetEmailEvent(this.email);
 
   @override
-  List<Object?> get props => [newPassword];
+  List<Object?> get props => [email];
 }
-
-// Toggle visibility for fields
-class ToggleNewPasswordVisibility extends ResetPasswordEvent {}
-
-class ToggleConfirmPasswordVisibility extends ResetPasswordEvent {}

@@ -3,51 +3,31 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'forget_password_event.dart';
 import 'forget_password_state.dart';
 
-class ResetPasswordBloc extends Bloc<ResetPasswordEvent, ResetPasswordState> {
+class ForgetPasswordBloc
+    extends Bloc<ForgetPasswordEvent, ForgetPasswordState> {
   final SupabaseClient supabase;
 
-  ResetPasswordBloc(this.supabase) : super(ResetPasswordInitial()) {
-    on<UpdatePasswordEvent>(_onUpdatePassword);
-    on<ToggleNewPasswordVisibility>(_onToggleNewPasswordVisibility);
-    on<ToggleConfirmPasswordVisibility>(_onToggleConfirmPasswordVisibility);
+  ForgetPasswordBloc(this.supabase) : super(ForgetPasswordInitial()) {
+    on<SendResetEmailEvent>(_onSendResetEmail);
   }
 
-  Future<void> _onUpdatePassword(
-    UpdatePasswordEvent event,
-    Emitter<ResetPasswordState> emit,
+  Future<void> _onSendResetEmail(
+    SendResetEmailEvent event,
+    Emitter<ForgetPasswordState> emit,
   ) async {
-    emit(ResetPasswordLoading());
+    emit(ForgetPasswordLoading());
     try {
-      await supabase.auth.updateUser(
-        UserAttributes(password: event.newPassword),
+      // ✅ Send reset email
+      await supabase.auth.resetPasswordForEmail(
+        event.email,
+        redirectTo:
+            'io.supabase.flutter://reset-password-callback', // deep link
       );
-      emit(ResetPasswordSuccess('Password updated successfully!'));
-    } catch (e) {
-      emit(ResetPasswordFailure('Error: ${e.toString()}'));
-    }
-  }
-
-  void _onToggleNewPasswordVisibility(
-    ToggleNewPasswordVisibility event,
-    Emitter<ResetPasswordState> emit,
-  ) {
-    if (state is ResetPasswordInitial) {
-      final current = state as ResetPasswordInitial;
-      emit(current.copyWith(obscureNewPassword: !current.obscureNewPassword));
-    }
-  }
-
-  void _onToggleConfirmPasswordVisibility(
-    ToggleConfirmPasswordVisibility event,
-    Emitter<ResetPasswordState> emit,
-  ) {
-    if (state is ResetPasswordInitial) {
-      final current = state as ResetPasswordInitial;
       emit(
-        current.copyWith(
-          obscureConfirmPassword: !current.obscureConfirmPassword,
-        ),
+        ForgetPasswordSuccess("Password reset email sent! Check your inbox."),
       );
+    } catch (e) {
+      emit(ForgetPasswordFailure("Error: ${e.toString()}"));
     }
   }
 }

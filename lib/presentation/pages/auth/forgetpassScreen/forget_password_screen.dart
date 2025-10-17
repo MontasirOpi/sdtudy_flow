@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:sdtudy_flow/presentation/pages/auth/forgetpassScreen/bloc/forget_password_bloc.dart';
+import 'package:sdtudy_flow/presentation/pages/auth/forgetpassScreen/bloc/forget_password_event.dart';
+import 'package:sdtudy_flow/presentation/pages/auth/forgetpassScreen/bloc/forget_password_state.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'bloc/forget_password_bloc.dart';
-import 'bloc/forget_password_event.dart';
-import 'bloc/forget_password_state.dart';
 
 class ForgetPasswordScreen extends StatelessWidget {
   const ForgetPasswordScreen({super.key});

@@ -1,47 +1,25 @@
 import 'package:equatable/equatable.dart';
 
-abstract class ResetPasswordState extends Equatable {
+abstract class ForgetPasswordState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class ResetPasswordInitial extends ResetPasswordState {
-  final bool obscureNewPassword;
-  final bool obscureConfirmPassword;
+class ForgetPasswordInitial extends ForgetPasswordState {}
 
-  ResetPasswordInitial({
-    this.obscureNewPassword = true,
-    this.obscureConfirmPassword = true,
-  });
+class ForgetPasswordLoading extends ForgetPasswordState {}
 
-  ResetPasswordInitial copyWith({
-    bool? obscureNewPassword,
-    bool? obscureConfirmPassword,
-  }) {
-    return ResetPasswordInitial(
-      obscureNewPassword: obscureNewPassword ?? this.obscureNewPassword,
-      obscureConfirmPassword:
-          obscureConfirmPassword ?? this.obscureConfirmPassword,
-    );
-  }
-
-  @override
-  List<Object?> get props => [obscureNewPassword, obscureConfirmPassword];
-}
-
-class ResetPasswordLoading extends ResetPasswordState {}
-
-class ResetPasswordSuccess extends ResetPasswordState {
+class ForgetPasswordSuccess extends ForgetPasswordState {
   final String message;
-  ResetPasswordSuccess(this.message);
+  ForgetPasswordSuccess(this.message);
 
   @override
   List<Object?> get props => [message];
 }
 
-class ResetPasswordFailure extends ResetPasswordState {
+class ForgetPasswordFailure extends ForgetPasswordState {
   final String error;
-  ResetPasswordFailure(this.error);
+  ForgetPasswordFailure(this.error);
 
   @override
   List<Object?> get props => [error];

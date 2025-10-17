@@ -1,6 +1,31 @@
-part of 'home_bloc.dart';
+class HomeState {
+  final bool loading;
+  final List<String> classSchedules;
+  final List<String> assignments;
+  final Map<String, List<String>> subjectNotes;
+  final List<String> todos;
 
-@immutable
-sealed class HomeState {}
+  HomeState({
+    this.loading = false,
+    this.classSchedules = const [],
+    this.assignments = const [],
+    this.subjectNotes = const {},
+    this.todos = const [],
+  });
 
-final class HomeInitial extends HomeState {}
+  HomeState copyWith({
+    bool? loading,
+    List<String>? classSchedules,
+    List<String>? assignments,
+    Map<String, List<String>>? subjectNotes,
+    List<String>? todos,
+  }) {
+    return HomeState(
+      loading: loading ?? this.loading,
+      classSchedules: classSchedules ?? this.classSchedules,
+      assignments: assignments ?? this.assignments,
+      subjectNotes: subjectNotes ?? this.subjectNotes,
+      todos: todos ?? this.todos,
+    );
+  }
+}

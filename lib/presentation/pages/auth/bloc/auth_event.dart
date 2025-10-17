@@ -24,3 +24,7 @@ class SignUpRequested extends AuthEvent {
   @override
   List<Object?> get props => [email, password];
 }
+
+class TogglePasswordVisibility extends AuthEvent {}
+
+class ToggleConfirmPasswordVisibility extends AuthEvent {}

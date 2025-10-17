@@ -22,12 +22,43 @@ class LoginScreen extends StatelessWidget {
             padding: const EdgeInsets.all(24.0),
             child: BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
+                print('📱 State changed to: ${state.runtimeType}');
+
                 if (state is AuthSuccess) {
+                  print('✅ Showing success snackbar');
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Login successful!')),
                   );
-                  context.go('/home'); // ✅ GoRouter navigation
+                  context.go('/home');
+                } else if (state is AuthEmailNotVerified) {
+                  print('⚠️ Showing email not verified snackbar');
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      content: const Text(
+                        'Please verify your email before logging in. Check your inbox.',
+                      ),
+                      duration: const Duration(seconds: 5),
+                      backgroundColor: Colors.blueAccent,
+                      action: SnackBarAction(
+                        label: 'Resend',
+                        textColor: Colors.white,
+                        onPressed: () {
+                          context.read<AuthBloc>().add(
+                            ResendVerificationEmail(),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Verification email sent!'),
+                              duration: Duration(seconds: 2),
+                              backgroundColor: Colors.green,
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  );
                 } else if (state is AuthFailure) {
+                  print('❌ Showing failure snackbar: ${state.message}');
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(SnackBar(content: Text(state.message)));
@@ -47,6 +78,7 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 32),
                     TextField(
                       controller: emailController,
+                      keyboardType: TextInputType.emailAddress,
                       decoration: const InputDecoration(
                         labelText: 'Email',
                         border: OutlineInputBorder(),
@@ -96,6 +128,16 @@ class LoginScreen extends StatelessWidget {
                           : () {
                               final email = emailController.text.trim();
                               final password = passwordController.text.trim();
+
+                              if (email.isEmpty || password.isEmpty) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                    content: Text('Please fill in all fields'),
+                                  ),
+                                );
+                                return;
+                              }
+
                               context.read<AuthBloc>().add(
                                 LoginRequested(email, password),
                               );

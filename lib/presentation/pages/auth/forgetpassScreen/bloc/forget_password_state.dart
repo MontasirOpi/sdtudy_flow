@@ -1,24 +1,44 @@
 import 'package:equatable/equatable.dart';
 
-abstract class ResetPasswordState extends Equatable {
+abstract class ForgetPasswordState extends Equatable {
   @override
   List<Object?> get props => [];
 }
 
-class ResetPasswordInitial extends ResetPasswordState {
+class ForgetPasswordInitial extends ForgetPasswordState {}
+
+class ForgetPasswordLoading extends ForgetPasswordState {}
+
+// Email sent successfully, waiting for OTP
+class ForgetPasswordOtpSent extends ForgetPasswordState {
+  final String email;
+  ForgetPasswordOtpSent(this.email);
+
+  @override
+  List<Object?> get props => [email];
+}
+
+// OTP verified, show password reset form
+class ForgetPasswordOtpVerified extends ForgetPasswordState {
+  final String email;
+  final String token;
   final bool obscureNewPassword;
   final bool obscureConfirmPassword;
 
-  ResetPasswordInitial({
+  ForgetPasswordOtpVerified(
+    this.email,
+    this.token, {
     this.obscureNewPassword = true,
     this.obscureConfirmPassword = true,
   });
 
-  ResetPasswordInitial copyWith({
+  ForgetPasswordOtpVerified copyWith({
     bool? obscureNewPassword,
     bool? obscureConfirmPassword,
   }) {
-    return ResetPasswordInitial(
+    return ForgetPasswordOtpVerified(
+      email,
+      token,
       obscureNewPassword: obscureNewPassword ?? this.obscureNewPassword,
       obscureConfirmPassword:
           obscureConfirmPassword ?? this.obscureConfirmPassword,
@@ -26,22 +46,25 @@ class ResetPasswordInitial extends ResetPasswordState {
   }
 
   @override
-  List<Object?> get props => [obscureNewPassword, obscureConfirmPassword];
+  List<Object?> get props => [
+    email,
+    token,
+    obscureNewPassword,
+    obscureConfirmPassword,
+  ];
 }
 
-class ResetPasswordLoading extends ResetPasswordState {}
-
-class ResetPasswordSuccess extends ResetPasswordState {
+class ForgetPasswordSuccess extends ForgetPasswordState {
   final String message;
-  ResetPasswordSuccess(this.message);
+  ForgetPasswordSuccess(this.message);
 
   @override
   List<Object?> get props => [message];
 }
 
-class ResetPasswordFailure extends ResetPasswordState {
+class ForgetPasswordFailure extends ForgetPasswordState {
   final String error;
-  ResetPasswordFailure(this.error);
+  ForgetPasswordFailure(this.error);
 
   @override
   List<Object?> get props => [error];

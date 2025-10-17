@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:sdtudy_flow/presentation/pages/auth/forgetpassScreen/forget_password_screen.dart';
 
 // ✅ Import all your screens
 import 'package:sdtudy_flow/presentation/pages/auth/login_screen.dart';
@@ -40,12 +41,13 @@ class AppRouter {
         builder: (context, state) => const HomeScreen(),
       ),
 
-      // ✅ (Optional) Future routes
-      // GoRoute(
-      //   path: '/schedule',
-      //   name: 'schedule',
-      //   builder: (context, state) => const SchedulePage(),
-      // ),
+      /// Forgot Password Screen
+      GoRoute(
+        path: '/reset-password',
+        name: 'reset-password',
+        builder: (context, state) => const ResetPasswordScreen(),
+      ),
+
       // GoRoute(
       //   path: '/assignments',
       //   name: 'assignments',

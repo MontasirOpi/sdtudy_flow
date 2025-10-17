@@ -105,7 +105,23 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(height: 24),
+                    const SizedBox(height: 16),
+
+                    // ✅ Forgot Password Button
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        onPressed: () {
+                          context.go('/reset-password'); // GoRouter path
+                        },
+                        child: const Text(
+                          'Forgot Password?',
+                          style: TextStyle(color: Colors.blueAccent),
+                        ),
+                      ),
+                    ),
+
+                    const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: state is AuthLoading
                           ? null

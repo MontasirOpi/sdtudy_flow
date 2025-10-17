@@ -119,11 +119,29 @@ class SignUpPage extends StatelessWidget {
                                     ),
                                   );
                                   return;
+                                } else if (password.length < 6) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        'Password must be at least 6 characters long',
+                                      ),
+                                    ),
+                                  );
+                                  return;
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text(
+                                        "verify your email after sign up for login",
+                                      ),
+                                    ),
+                                  );
                                 }
 
                                 context.read<AuthBloc>().add(
                                   SignUpRequested(email, password),
                                 );
+                                context.go('/login');
                               },
                         style: ElevatedButton.styleFrom(
                           minimumSize: const Size(double.infinity, 50),

@@ -28,3 +28,5 @@ class SignUpRequested extends AuthEvent {
 class TogglePasswordVisibility extends AuthEvent {}
 
 class ToggleConfirmPasswordVisibility extends AuthEvent {}
+
+class ResendVerificationEmail extends AuthEvent {}

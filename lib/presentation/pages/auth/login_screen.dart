@@ -55,10 +55,23 @@ class LoginScreen extends StatelessWidget {
                     const SizedBox(height: 16),
                     TextField(
                       controller: passwordController,
-                      obscureText: true,
-                      decoration: const InputDecoration(
+                      obscureText:
+                          state.obscurePassword, // Works for all states now
+                      decoration: InputDecoration(
                         labelText: 'Password',
-                        border: OutlineInputBorder(),
+                        border: const OutlineInputBorder(),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            state.obscurePassword
+                                ? Icons.visibility_off
+                                : Icons.visibility,
+                          ),
+                          onPressed: () {
+                            context.read<AuthBloc>().add(
+                              TogglePasswordVisibility(),
+                            );
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 24),

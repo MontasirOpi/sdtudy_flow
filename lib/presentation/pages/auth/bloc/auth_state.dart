@@ -45,3 +45,10 @@ class AuthFailure extends AuthState {
   @override
   List<Object?> get props => [message, obscurePassword, obscureConfirmPassword];
 }
+
+class AuthEmailNotVerified extends AuthState {
+  const AuthEmailNotVerified({
+    super.obscurePassword,
+    super.obscureConfirmPassword,
+  });
+}

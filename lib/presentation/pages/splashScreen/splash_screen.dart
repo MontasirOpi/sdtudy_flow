@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sdtudy_flow/presentation/pages/auth/login_screen.dart';
 import 'package:sdtudy_flow/presentation/pages/splashScreen/bloc/splash_screen_bloc.dart';
 import 'package:sdtudy_flow/presentation/pages/splashScreen/bloc/splash_screen_event.dart';
 import 'package:sdtudy_flow/presentation/pages/splashScreen/bloc/splash_screen_state.dart';
@@ -42,7 +41,7 @@ class _SplashViewState extends State<_SplashView>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 3),
     );
     _fadeAnim = CurvedAnimation(parent: _controller, curve: Curves.easeInOut);
     _controller.forward();

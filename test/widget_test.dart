@@ -9,8 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:sdtudy_flow/app/app.dart';
 
-import 'package:sdtudy_flow/main.dart' hide MyApp;
-
 void main() {
   testWidgets('Counter increments smoke test', (WidgetTester tester) async {
     // Build our app and trigger a frame.

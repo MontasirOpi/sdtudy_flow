@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -17,21 +18,26 @@ class LoginScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) => AuthBloc(AuthService()),
       child: Scaffold(
-        body: SafeArea(
+        body: Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Color(0xFF6A11CB), Color(0xFF2575FC)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
           child: Padding(
             padding: const EdgeInsets.all(24.0),
             child: BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
-                print('📱 State changed to: ${state.runtimeType}');
-
                 if (state is AuthSuccess) {
-                  print('✅ Showing success snackbar');
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(content: Text('Login successful!')),
                   );
                   context.go('/home');
                 } else if (state is AuthEmailNotVerified) {
-                  print('⚠️ Showing email not verified snackbar');
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
                       content: const Text(
@@ -49,8 +55,8 @@ class LoginScreen extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(
                               content: Text('Verification email sent!'),
-                              duration: Duration(seconds: 2),
                               backgroundColor: Colors.green,
+                              duration: Duration(seconds: 2),
                             ),
                           );
                         },
@@ -58,112 +64,194 @@ class LoginScreen extends StatelessWidget {
                     ),
                   );
                 } else if (state is AuthFailure) {
-                  print('❌ Showing failure snackbar: ${state.message}');
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(SnackBar(content: Text(state.message)));
                 }
               },
               builder: (context, state) {
-                return Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text(
-                      'Welcome Back 👋',
-                      style: TextStyle(
-                        fontSize: 26,
-                        fontWeight: FontWeight.bold,
+                return SingleChildScrollView(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const SizedBox(height: 60),
+
+                      // App Logo
+                      Center(
+                        child: Image.asset(
+                          'assets/logo/applogo.png',
+                          height: 150,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 32),
-                    TextField(
-                      controller: emailController,
-                      keyboardType: TextInputType.emailAddress,
-                      decoration: const InputDecoration(
-                        labelText: 'Email',
-                        border: OutlineInputBorder(),
+                      const SizedBox(height: 10),
+                      const Text(
+                        'Welcome Back',
+                        style: TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 16),
-                    TextField(
-                      controller: passwordController,
-                      obscureText: state.obscurePassword,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        border: const OutlineInputBorder(),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            state.obscurePassword
-                                ? Icons.visibility_off
-                                : Icons.visibility,
+                      const SizedBox(height: 8),
+                      const Text(
+                        'Login to continue your learning journey!',
+                        style: TextStyle(color: Colors.white70, fontSize: 14),
+                      ),
+                      const SizedBox(height: 32),
+
+                      // Email
+                      TextField(
+                        controller: emailController,
+                        keyboardType: TextInputType.emailAddress,
+                        decoration: InputDecoration(
+                          labelText: 'Email',
+                          labelStyle: const TextStyle(color: Colors.white70),
+                          prefixIcon: const Icon(
+                            Icons.email_outlined,
+                            color: Colors.white,
                           ),
-                          onPressed: () {
-                            context.read<AuthBloc>().add(
-                              TogglePasswordVisibility(),
-                            );
-                          },
+                          filled: true,
+                          fillColor: const Color.fromARGB(50, 255, 255, 255),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
                         ),
+                        style: const TextStyle(color: Colors.white),
                       ),
-                    ),
-                    const SizedBox(height: 16),
+                      const SizedBox(height: 16),
 
-                    // ✅ Forgot Password Button
-                    Align(
-                      alignment: Alignment.centerRight,
-                      child: TextButton(
-                        onPressed: () {
-                          context.go('/reset-password'); // GoRouter path
-                        },
-                        child: const Text(
-                          'Forgot Password?',
-                          style: TextStyle(color: Colors.blueAccent),
-                        ),
-                      ),
-                    ),
-
-                    const SizedBox(height: 16),
-                    ElevatedButton(
-                      onPressed: state is AuthLoading
-                          ? null
-                          : () {
-                              final email = emailController.text.trim();
-                              final password = passwordController.text.trim();
-
-                              if (email.isEmpty || password.isEmpty) {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Please fill in all fields'),
-                                  ),
-                                );
-                                return;
-                              }
-
+                      // Password
+                      TextField(
+                        controller: passwordController,
+                        obscureText: state.obscurePassword,
+                        decoration: InputDecoration(
+                          labelText: 'Password',
+                          labelStyle: const TextStyle(color: Colors.white70),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                          prefixIcon: const Icon(
+                            Icons.lock_outline,
+                            color: Colors.white,
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              state.obscurePassword
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                              color: Colors.white,
+                            ),
+                            onPressed: () {
                               context.read<AuthBloc>().add(
-                                LoginRequested(email, password),
+                                TogglePasswordVisibility(),
                               );
                             },
-                      style: ElevatedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 50),
-                        backgroundColor: Colors.blueAccent,
+                          ),
+                          filled: true,
+                          fillColor: const Color.fromARGB(50, 255, 255, 255),
+                        ),
+                        style: const TextStyle(color: Colors.white),
                       ),
-                      child: state is AuthLoading
-                          ? const CircularProgressIndicator(color: Colors.white)
-                          : const Text(
-                              'Login',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.white,
-                              ),
+                      const SizedBox(height: 0),
+
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: TextButton(
+                          onPressed: () {
+                            context.go('/reset-password');
+                          },
+                          child: const Text(
+                            'Forgot Password?',
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        width: double.infinity,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFFFFA500), Color(0xFFFF4500)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                        ),
+                        child: ElevatedButton(
+                          onPressed: state is AuthLoading
+                              ? null
+                              : () {
+                                  final email = emailController.text.trim();
+                                  final password = passwordController.text
+                                      .trim();
+
+                                  if (email.isEmpty || password.isEmpty) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      const SnackBar(
+                                        content: Text(
+                                          'Please fill in all fields',
+                                        ),
+                                      ),
+                                    );
+                                    return;
+                                  }
+
+                                  context.read<AuthBloc>().add(
+                                    LoginRequested(email, password),
+                                  );
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.transparent,
+                            shadowColor: Colors.transparent,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
                             ),
-                    ),
-                    const SizedBox(height: 12),
-                    TextButton(
-                      onPressed: () {
-                        context.go('/signup');
-                      },
-                      child: const Text("Don't have an account? Sign up"),
-                    ),
-                  ],
+                          ),
+                          child: state is AuthLoading
+                              ? const CircularProgressIndicator(
+                                  color: Colors.white,
+                                )
+                              : const Text(
+                                  'Login',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      RichText(
+                        text: TextSpan(
+                          text: "Don't have an account? ",
+                          style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.white70,
+                          ),
+                          children: [
+                            TextSpan(
+                              text: "Sign up",
+                              style: const TextStyle(
+                                fontSize: 15,
+                                color: Colors.yellowAccent,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  context.go('/signup');
+                                },
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                    ],
+                  ),
                 );
               },
             ),

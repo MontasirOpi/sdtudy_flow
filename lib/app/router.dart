@@ -1,6 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sdtudy_flow/presentation/pages/auth/forgetpassScreen/forget_password_screen.dart';
+import 'package:sdtudy_flow/presentation/pages/forgetpassScreen/forget_password_screen.dart';
 
 // ✅ Import all your screens
 import 'package:sdtudy_flow/presentation/pages/auth/login_screen.dart';
